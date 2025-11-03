@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import {blogCategories} from '../assets/assets'
+import {blog_data, blogCategories} from '../assets/assets'
 import {motion} from "motion/react"
+import BlogCard from './BlogCard';
 
 const BlogList = () => {
 
@@ -26,7 +27,10 @@ const BlogList = () => {
           ))}
         </div>
         <div>
-          {/* Blog posts will be rendered here */}
+          {blog_data.filter((blog)=>menu === "All"?
+            true :  blog.category === menu
+          )
+          .map((blog)=><BlogCard key={blog._id} blog={blog}/>)}
         </div>
     </div>
   )
