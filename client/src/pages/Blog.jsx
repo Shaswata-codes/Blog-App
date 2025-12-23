@@ -25,7 +25,11 @@ const Blog = () => {
         <h2 className='my-5 max-w-lg truncate mx-auto'>{data.subTitle}</h2>
         <p className='inline-block py-1 px-4 rounded-full mb-6 border text-sm border-primary/35 bg-primary/5 font-medium text-primary'>Shasssss</p>
       </div>
-      <div></div>
+      <div className='mx-5 max-w-5xl md:auto my-10 mt-6'>
+        <img src={data.image} className='rounded-3xl mb-5'/>
+        <div></div>
+
+      </div>
 
     </div>
   )
