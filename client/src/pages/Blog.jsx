@@ -3,11 +3,15 @@ import { useParams } from 'react-router-dom'
 import { assets, blog_data, comments_data } from '../assets/assets';
 import Navbar from '../components/Navbar';
 import Moment from 'moment';
+import Footer from '../components/Footer';
 
 const Blog = () => {
   const {id} = useParams();
   const [data, setData] = useState(null);
   const [comments, setComments] = useState([]);
+  const [name, setName] = useState('');
+  const [content, setContent] = useState('');
+
   const fetchBlogData = () => {
     const blog = blog_data.find(item => item._id === id);
     setData(blog);
@@ -15,6 +19,10 @@ const Blog = () => {
 
   const fetchComments = () =>{
     setComments(comments_data);
+  }
+
+  const addComment = async(e) =>{
+    e.preventDefault();
   }
 
   useEffect(()=>{
@@ -56,7 +64,27 @@ const Blog = () => {
           </div>
         </div>
 
+        <div className='max-w-3xl mx-auto'>
+            <p className='font-semibold mb-4'>Add your Comment</p>
+            <form onSubmit={addComment} className='flex flex-col items-start gap-4 max-w-lg'>
+              <input onChange={(e)=>setName(e.target.value)} value={name} type='text' placeholder='Name' required className='w-full p-2 border border-gray-300 rounded outline-none'/>
+              <textarea onChange={(e)=>setContent(e.target.value)} value={content} placeholder='Comment' className='w-full p-2 border border-gray-300 rounded outline-none h-48' required></textarea>
+              <button type='submit' className='bg-primary text-white px-8 p-2 rounded hover:bg-primary/90 transition'>Submit</button>
+            </form>
+        </div>
+        
+        <div className='my-24 max-w-3xl mx-auto'>
+          <p className='font-semibold my-4'>Share This article on social media</p>
+          <div className='flex'>
+            <img src={assets.facebook_icon} width ={50}/>
+            <img src={assets.twitter_icon} width ={50}/>
+            <img src={assets.googleplus_icon} width ={50}/>
+          </div>
+        </div>
+
       </div>
+
+      <Footer/>
 
     </div>
   )
