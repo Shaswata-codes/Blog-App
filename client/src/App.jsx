@@ -15,11 +15,12 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Home/>} />
         <Route path='/blog/:id' element={<Blog/>} />
-        <Route path='/admin' element={<Layout/>} />
+        <Route path='/admin' element={true?<Layout/>:<Login/>}>
           <Route index element={<Dashboard/>} />
           <Route path='add-blog' element={<AddBlog/>} />
           <Route path='list-blog' element={<ListBlog/>} />
           <Route path='comments' element={<Comments/>} />
+        </Route>
       </Routes>
     </div>
   )
