@@ -73,7 +73,6 @@ const Blog = () => {
               <button type='submit' className='bg-primary text-white px-8 p-2 rounded hover:bg-primary/90 transition'>Submit</button>
             </form>
         </div>
-        
         <div className='my-24 max-w-3xl mx-auto'>
           <p className='font-semibold my-4'>Share This article on social media</p>
           <div className='flex'>
@@ -82,7 +81,6 @@ const Blog = () => {
             <img src={assets.googleplus_icon} width ={50}/>
           </div>
         </div>
-
       </div>
 
       <Footer/>
