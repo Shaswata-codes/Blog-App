@@ -1,30 +1,24 @@
 import express from "express";
 import {
   addBlog,
+  addComment,
   deleteBlogById,
   getAllBlogs,
   getBlogById,
+  getBlogComments,
   togglePublish
 } from "../controllers/blogController.js";
-
 import upload from "../middleware/multer.js";
 import auth from "../middleware/auth.js";
 
 const blogRouter = express.Router();
-
-// Create blog
 blogRouter.post("/add", upload.single("image"), auth, addBlog);
-
-// Get all blogs
 blogRouter.get("/", getAllBlogs);
-
-// Get single blog
 blogRouter.get("/:blogId", getBlogById);
+blogRouter.delete("/:blogId", auth, deleteBlogById);
+blogRouter.post("/togglePublish/:blogId", auth, togglePublish);
+blogRouter.post("/addComment", addComment);
+blogRouter.post("/getComments", getBlogComments);
 
-// Delete blog
-blogRouter.delete("/:blogId", auth, deleteBlogById); // ⭐ REST style fix
-
-// Toggle publish
-blogRouter.post("/togglePublish/:blogId", auth, togglePublish); // ⭐ param style
 
 export default blogRouter;

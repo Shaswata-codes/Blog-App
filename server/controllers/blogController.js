@@ -2,6 +2,7 @@ import fs from "fs";
 import mongoose from "mongoose";
 import imagekit from "../configs/imagekit.js";
 import Blog from "../models/Blog.js";
+import Comment from "../models/comment.js";
 
 /* ================= ADD BLOG ================= */
 export const addBlog = async (req, res) => {
@@ -194,6 +195,9 @@ export const deleteBlogById = async (req, res) => {
 
     const deletedBlog = await Blog.findByIdAndDelete(blogId);
 
+    //delete all comments associated with this blog
+    await Comment.deleteMany({blog: blogId});
+
     if (!deletedBlog) {
       return res.status(404).json({
         success: false,
@@ -257,6 +261,18 @@ export const togglePublish = async (req, res) => {
 export const addComment = async(req, res) =>{
   try {
     const {blog, name, content} = req.body;
+    await Comment.create({blog, name, content});
+    res.json({success: true, message: "Comment added successfully"})
+  } catch (error) {
+    res.json({success: false, message: error.message})
+  }
+}
+
+export const getBlogComments = async (req, res) => {
+  try {
+    const {blogId} = req.body;
+    const comments = await Comment.find({blog: blogId, isApproved: true}).sort({createdAt: -1});
+    res.json({success: true, comments})
   } catch (error) {
     res.json({success: false, message: error.message})
   }
