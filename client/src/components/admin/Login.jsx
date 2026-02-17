@@ -113,10 +113,14 @@
 
 // export default Login
 
+import toast from "react-hot-toast";
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useAppContext } from '../../context/AppContext';
 
 const Login = () => {
+
+  const {axios, setToken} = useAppContext();
   const [focusedField, setFocusedField] = useState(null)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -125,11 +129,19 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setIsLoading(true)
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 2000)
+    try {
+      const {data} = await axios.post('/api/admin/login', {email, password});
+      if(data.success){
+        setToken(data.token);
+        localStorage.setItem('token', data.token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+      }
+      else{
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
   }
 
   return (
@@ -418,7 +430,7 @@ const Login = () => {
         </div>
       </motion.div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes blob-float {
           0%, 100% { 
             transform: translate(0, 0) scale(1) rotate(0deg);

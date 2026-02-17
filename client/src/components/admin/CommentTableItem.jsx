@@ -204,7 +204,7 @@ const CommentTableItem = ({comment, fetchComments, index = 0}) => {
                 />
             )}
 
-            <style jsx>{`
+            <style>{`
                 @keyframes ping {
                     75%, 100% {
                         transform: scale(2);

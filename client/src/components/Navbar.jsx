@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { assets } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
+import { useAppContext } from '../context/AppContext';
 
 const Navbar = () => {
-  const navigate = useNavigate();
+  const {navigate, token}= useAppContext();
   const [scrolled, setScrolled] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -91,9 +92,11 @@ const Navbar = () => {
               <svg className='w-4 h-4' fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
-              Login
+              {token?'Dashboard':'Login'}
             </span>
             
+            
+
             <img 
               src={assets.arrow} 
               className='w-3 relative z-10 group-hover:translate-x-2 transition-transform duration-300' 
