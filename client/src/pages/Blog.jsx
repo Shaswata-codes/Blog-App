@@ -255,7 +255,7 @@ const Blog = () => {
 
       <Footer/>
 
-      <style jsx>{`
+      <style>{`
         @keyframes gradient-shift {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.8; }

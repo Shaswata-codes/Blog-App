@@ -235,7 +235,7 @@ const Header = () => {
             {/* Gradient Background Image */}
             <img src={assets.gradientBackground} alt="" className="absolute -top-32 left-1/2 -translate-x-1/2 -z-20 opacity-15 w-full max-w-5xl pointer-events-none animate-pulse-slow scale-110" />
 
-            <style jsx>{`
+            <style>{`
                 @keyframes blob-float {
                     0%, 100% { 
                         transform: translate(0, 0) scale(1) rotate(0deg);

@@ -181,7 +181,7 @@ const BlogList = () => {
         >
           {filteredBlogs.map((blog, index) => (
             <motion.div
-              key={blog._id}
+              key={`${blog._id}-${index}`}
               initial={{ opacity: 0, y: 30, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -30, scale: 0.95 }}
@@ -230,7 +230,7 @@ const BlogList = () => {
       <div className='absolute bottom-10 left-10 w-20 h-20 border-4 border-emerald-200/30 rounded-full animate-pulse-rotate'></div>
       <div className='absolute top-40 right-16 w-16 h-16 border-4 border-teal-200/30 rounded-2xl animate-rotate-slow'></div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes blob-float {
           0%, 100% { 
             transform: translate(0, 0) scale(1);

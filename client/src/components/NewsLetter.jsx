@@ -250,7 +250,7 @@ const NewsLetter = () => {
         </motion.div>
       </motion.div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes blob-float {
           0%, 100% { 
             transform: translate(0, 0) scale(1) rotate(0deg);

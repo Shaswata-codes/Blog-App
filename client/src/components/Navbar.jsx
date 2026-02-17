@@ -117,7 +117,7 @@ const Navbar = () => {
         <div className='absolute -top-20 -right-20 w-40 h-40 bg-teal-300/10 rounded-full blur-3xl animate-pulse-slow animation-delay-2000 pointer-events-none'></div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes ripple {
           to {
             transform: scale(4);

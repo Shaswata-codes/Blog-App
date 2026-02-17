@@ -153,7 +153,7 @@ const BlogCard = ({ blog }) => {
         </>
       )}
 
-      <style jsx>{`
+      <style>{`
         @keyframes pulse {
           0%, 100% {
             opacity: 1;
