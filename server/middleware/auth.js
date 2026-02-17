@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 const auth = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
-  // Must exist and start with Bearer
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({
       success: false,

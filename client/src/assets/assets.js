@@ -238,11 +238,14 @@ export const comments_data = [
     ]
 
 export const dashboard_data = {
-    "blogs": 10,
-    "comments": 5,
-    "drafts": 0,
-    "recentBlogs": blog_data.slice(0, 5),
+    blogs: blog_data.length,
+    comments: comments_data.length,
+    drafts: blog_data.filter(blog => !blog.isPublished).length,
+    recentBlogs: [...blog_data]
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .slice(0, 8)
 }
+
 
 export const footer_data = [
       {
