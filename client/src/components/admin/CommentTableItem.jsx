@@ -17,14 +17,14 @@ const CommentTableItem = ({comment, fetchComments, index = 0}) => {
             onMouseLeave={() => setIsHovered(false)}
             className='border-b-2 border-emerald-100/50 hover:bg-gradient-to-r hover:from-emerald-50/40 hover:via-green-50/30 hover:to-transparent transition-all duration-300 group relative'
         >
-            {/* Animated Border on Hover */}
+            
             <td colSpan="3" className='absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-emerald-500 via-green-500 to-teal-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-r-full'></td>
 
-            {/* Main Content Column */}
+            
             <td className='px-6 sm:px-8 py-6 sm:py-8'>
                 <div className='space-y-4'>
                     
-                    {/* Blog Title */}
+                    
                     <div className='flex items-start gap-3 group/blog'>
                         <div className='w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center flex-shrink-0 shadow-lg group-hover:shadow-xl group-hover:scale-105 transition-all duration-300'>
                             <svg className='w-5 h-5 text-white' fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -41,7 +41,7 @@ const CommentTableItem = ({comment, fetchComments, index = 0}) => {
                         </div>
                     </div>
 
-                    {/* Commenter Name */}
+                    
                     <div className='flex items-center gap-3 group/user'>
                         <div className='w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300'>
                             <svg className='w-5 h-5 text-white' fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -56,7 +56,7 @@ const CommentTableItem = ({comment, fetchComments, index = 0}) => {
                                 {comment.name}
                             </p>
                         </div>
-                        {/* Date on Mobile */}
+                        
                         <div className='sm:hidden text-right'>
                             <span className='text-xs font-semibold text-gray-500'>
                                 {BlogDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
@@ -64,7 +64,7 @@ const CommentTableItem = ({comment, fetchComments, index = 0}) => {
                         </div>
                     </div>
 
-                    {/* Comment Content */}
+                    
                     <div className='flex items-start gap-3 group/comment'>
                         <div className='w-10 h-10 rounded-lg bg-gradient-to-br from-teal-500 to-green-500 flex items-center justify-center flex-shrink-0 shadow-md group-hover:shadow-lg transition-all duration-300'>
                             <svg className='w-5 h-5 text-white' fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -82,7 +82,7 @@ const CommentTableItem = ({comment, fetchComments, index = 0}) => {
                                     {comment.content}
                                 </p>
                                 
-                                {/* Expand Button for Long Comments */}
+                                
                                 {comment.content.length > 150 && (
                                     <motion.button
                                         whileHover={{ scale: 1.05 }}
@@ -107,7 +107,7 @@ const CommentTableItem = ({comment, fetchComments, index = 0}) => {
                 </div>
             </td>
 
-            {/* Date Column - Desktop Only */}
+            
             <td className='px-6 py-8 max-sm:hidden align-top'>
                 <div className='flex flex-col items-center gap-2'>
                     <div className='w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-100 to-teal-100 border-2 border-emerald-200/50 flex items-center justify-center shadow-md group-hover:shadow-lg group-hover:scale-105 transition-all duration-300'>
@@ -126,11 +126,11 @@ const CommentTableItem = ({comment, fetchComments, index = 0}) => {
                 </div>
             </td>
 
-            {/* Actions Column */}
+            
             <td className='px-6 py-8 align-top'>
                 <div className='flex flex-col sm:flex-row items-end sm:items-start gap-3'>
                     
-                    {/* Approve/Approved Button */}
+                    
                     {!comment.isApproved ? (
                         <motion.button 
                             whileHover={{ scale: 1.1, rotate: 5 }}
@@ -141,15 +141,15 @@ const CommentTableItem = ({comment, fetchComments, index = 0}) => {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
 
-                            {/* Tooltip */}
+                            
                             <span className='absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-gray-900 text-white text-xs font-bold rounded-lg opacity-0 group-hover/approve:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none'>
                                 Approve Comment
                             </span>
 
-                            {/* Hover Background */}
+                            
                             <div className='absolute inset-0 bg-gradient-to-br from-emerald-500 to-green-500 opacity-0 group-hover/approve:opacity-10 transition-opacity duration-300'></div>
 
-                            {/* Ripple Effect */}
+                            
                             <div className='absolute inset-0 rounded-xl bg-emerald-400 opacity-0 group-hover/approve:opacity-20 blur-xl transition-opacity duration-300'></div>
                         </motion.button>
                     ) : (
@@ -165,12 +165,12 @@ const CommentTableItem = ({comment, fetchComments, index = 0}) => {
                             </span>
                             <span className='relative z-10'>Approved</span>
                             
-                            {/* Shine Effect */}
+                            
                             <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000'></div>
                         </motion.div>
                     )}
 
-                    {/* Delete Button */}
+                    
                     <motion.button 
                         whileHover={{ scale: 1.1, rotate: -5 }}
                         whileTap={{ scale: 0.9 }}
@@ -180,21 +180,21 @@ const CommentTableItem = ({comment, fetchComments, index = 0}) => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
 
-                        {/* Tooltip */}
+                        
                         <span className='absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-gray-900 text-white text-xs font-bold rounded-lg opacity-0 group-hover/delete:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none'>
                             Delete Comment
                         </span>
 
-                        {/* Hover Background */}
+                        
                         <div className='absolute inset-0 bg-gradient-to-br from-red-500 to-pink-500 opacity-0 group-hover/delete:opacity-10 transition-opacity duration-300'></div>
 
-                        {/* Ripple Effect */}
+                        
                         <div className='absolute inset-0 rounded-xl bg-red-400 opacity-0 group-hover/delete:opacity-20 blur-xl transition-opacity duration-300'></div>
                     </motion.button>
                 </div>
             </td>
 
-            {/* Floating Action Indicator */}
+            
             {isHovered && (
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}

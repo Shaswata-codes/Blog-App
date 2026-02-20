@@ -2,10 +2,14 @@ import React, { useEffect, useRef, useState } from 'react'
 import { assets, blogCategories } from '../../assets/assets'
 import { motion, AnimatePresence } from 'framer-motion'
 import Quill from 'quill'
+import { useAppContext } from '../../context/AppContext'
+import toast from "react-hot-toast";
 
 const AddBlog = () => {
   const editorRef = useRef(null)
   const quillRef = useRef(null)
+  const {axios} = useAppContext();
+  const [isAdding, setIsAdding] = useState(false);
 
   const [image, setImage] = useState(false)
   const [title, setTitle] = useState('')
@@ -24,8 +28,45 @@ const AddBlog = () => {
   }
 
   const onSubmitHandler = async (e) => {
-    e.preventDefault()
+  e.preventDefault();
+
+  try {
+    setIsAdding(true);
+
+    const blog = {
+      title,
+      subTitle: subtitle,
+      description: quillRef.current.root.innerHTML,
+      category,
+      isPublished
+    };
+
+    const formData = new FormData();
+    formData.append('blog', JSON.stringify(blog));
+    formData.append('image', image);
+
+    const { data } = await axios.post('/api/blog/add', formData);
+
+    if (data.success) {
+      toast.success(data.message);
+
+      setImage(null);
+      setTitle('');
+      setSubtitle('');
+      setCategory('Startup');
+      setIsPublished(false);
+      quillRef.current.root.innerHTML = '';
+    } else {
+      toast.error(data.message);
+    }
+
+  } catch (error) {
+    console.log(error);
+    toast.error(error.response?.data?.message || "Upload failed");
+  } finally {
+    setIsAdding(false);
   }
+};
 
   const handleDrag = (e) => {
     e.preventDefault()
