@@ -1,19 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import { comments_data } from '../../assets/assets';
 import CommentTableItem from '../../components/admin/CommentTableItem';
+import { useAppContext } from '../../context/AppContext';
 
 const Comments = () => {
 
   const[comments, setComments] = useState([]);
   const [filter, setFilter] = useState("Not Approved");
+  const {axios} = useAppContext();
 
-  const fetchComments = async() =>{
-    setComments(comments_data);
-  }
+  const fetchComments = async () => {
+    try {
+      const { data } = await axios.get('/api/admin/comments');
+      
+      if (data.success) {
+        setComments(data.comments);
+      } else {
+        toast.error(data.message);
+      }
 
-  useEffect(()=>{
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  
+  useEffect(() => {
     fetchComments();
-  },[])
+  }, []);
 
   const filteredComments = comments.filter((comment)=>{
     if(filter === "Approved") return comment.isApproved === true;
