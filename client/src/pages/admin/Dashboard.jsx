@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { assets } from '../../assets/assets'
 import BlogTableItem from '../../components/admin/BlogTableItem'
+import { useAppContext } from '../../context/AppContext'
+import toast from 'react-hot-toast'
 
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = React.useState({
@@ -11,7 +13,7 @@ const Dashboard = () => {
     recentBlogs : []
   })
   const [mounted, setMounted] = React.useState(false)
-
+  const { axios, token } = useAppContext();
   // Dummy data for demonstration
   const dummyData = {
     blogs: 47,
@@ -86,16 +88,31 @@ const Dashboard = () => {
   }
 
   const fetchDashboardData = async () => {
-    // Simulate API call with setTimeout
-    setTimeout(() => {
-      setDashboardData(dummyData);
-    }, 500);
-  }
+  try {
+    const { data } = await axios.get('/api/admin/dashboard', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
 
-  useEffect(()=>{
-    setMounted(true)
+    if (data.success) {
+      setDashboardData(data.dashboardData);
+    } else {
+      toast.error(data.message);
+    }
+
+  } catch (error) {
+    toast.error(error.response?.data?.message || error.message);
+  }
+};
+
+  useEffect(() => {
+    if (!token) return;
+
     fetchDashboardData();
-  },[])
+    setMounted(true);
+
+  }, [token]);
 
   return (
     <div className={`flex-1 p-4 md:p-10 bg-gradient-to-br from-emerald-50 via-green-50/40 to-teal-50/50 min-h-screen transition-opacity duration-1000 ${mounted ? 'opacity-100' : 'opacity-0'} relative overflow-hidden`}>
@@ -192,10 +209,15 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {dashboardData.recentBlogs.map((blog, index)=>{
-                  return <BlogTableItem key = {blog.id} blog={blog} fetchBlogs={fetchDashboardData} index={index+1}/>
-                })}
-              </tbody>
+                {dashboardData.recentBlogs.map((blog, index) => (
+                  <BlogTableItem
+                    key={blog._id}
+                    blog={blog}
+                    fetchBlogs={fetchDashboardData}
+                    index={index + 1}
+                  />
+                ))}
+            </tbody>
             </table>
           </div>
         </motion.div>
@@ -252,4 +274,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Dashboard;
