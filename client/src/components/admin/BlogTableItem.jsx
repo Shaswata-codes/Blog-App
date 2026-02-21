@@ -1,11 +1,55 @@
 import React, { useState } from 'react'
 import { assets } from '../../assets/assets'
 import { motion } from 'framer-motion'
+import { useAppContext } from '../../context/AppContext'
+import toast from "react-hot-toast";
 
-const BlogTableItem = ({blog, fetchBlogs, index}) => {
-    const {title, createdAt} = blog
-    const BlogDate = new Date(createdAt)
-    const [isHovered, setIsHovered] = useState(false)
+    const BlogTableItem = ({ blog, fetchBlogs, index }) => {
+    const { axios } = useAppContext();
+    const { title, createdAt } = blog;
+    const BlogDate = new Date(createdAt);
+    const [isHovered, setIsHovered] = useState(false);
+
+    const togglePublish = async () => {
+        try {
+        const { data } = await axios.post(
+            `/api/blog/togglePublish/${blog._id}`
+        );
+
+        if (data.success) {
+            toast.success(data.message);
+            fetchBlogs();
+        } else {
+            toast.error(data.message);
+        }
+
+        } catch (error) {
+        toast.error("Failed to toggle publish status.");
+        }
+    };
+
+    const deleteBlog = async () => {
+        const confirmDelete = window.confirm(
+        "Are you sure you want to delete this blog?"
+        );
+        if (!confirmDelete) return;
+
+        try {
+        const { data } = await axios.delete(
+            `/api/blog/${blog._id}`
+        );
+
+        if (data.success) {
+            toast.success(data.message);
+            fetchBlogs();
+        } else {
+            toast.error(data.message);
+        }
+
+        } catch (error) {
+        toast.error("Failed to delete blog.");
+        }
+    };
 
     return (
         <motion.tr 
@@ -86,7 +130,7 @@ const BlogTableItem = ({blog, fetchBlogs, index}) => {
             <td className='px-5 py-6'>
                 <div className='flex items-center gap-2 sm:gap-3 justify-end'>
                     {/* Publish/Unpublish Button */}
-                    <motion.button 
+                    <motion.button onClick={togglePublish} 
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                         className={`relative px-4 sm:px-5 py-2.5 rounded-xl text-xs font-black transition-all duration-300 shadow-lg hover:shadow-xl overflow-hidden group/btn ${
@@ -118,7 +162,7 @@ const BlogTableItem = ({blog, fetchBlogs, index}) => {
                     </motion.button>
 
                     {/* Delete Button */}
-                    <motion.button 
+                    <motion.button onClick={deleteBlog}
                         whileHover={{ scale: 1.1, rotate: 10 }}
                         whileTap={{ scale: 0.9 }}
                         className='relative p-2.5 sm:p-3 rounded-xl bg-gradient-to-br from-red-50 to-pink-50 hover:from-red-100 hover:to-pink-100 border-2 border-red-200/50 hover:border-red-300 transition-all duration-300 shadow-md hover:shadow-lg group/delete overflow-hidden'

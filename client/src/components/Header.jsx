@@ -35,7 +35,6 @@ const Header = () => {
   return (
     <div className={`relative min-h-screen flex flex-col items-center justify-center overflow-hidden transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
 
-      {/* Dynamic Animated Background with Mouse Parallax */}
       <div
         className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-green-900 to-teal-950"
         style={{

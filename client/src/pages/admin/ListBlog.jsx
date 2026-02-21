@@ -1,130 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import BlogTableItem from '../../components/admin/BlogTableItem';
-
+import { useAppContext } from '../../context/AppContext';
+import toast from "react-hot-toast";
 const ListBlog = () => {
   const [blogs, setBlogs] = useState([]);
   const [mounted, setMounted] = useState(false);
+  const {axios} = useAppContext();
 
-  // Dummy blog data
-  const dummyBlogs = [
-    {
-      id: 1,
-      title: "Getting Started with React Hooks: A Complete Guide",
-      date: "2024-02-10",
-      status: "Published",
-      author: "Sarah Johnson",
-      category: "Technology",
-      description: "Learn the fundamentals of React Hooks and how to use them effectively in your applications."
-    },
-    {
-      id: 2,
-      title: "10 Essential Tips for Successful Startup Growth",
-      date: "2024-02-09",
-      status: "Published",
-      author: "Michael Chen",
-      category: "Startup",
-      description: "Discover proven strategies to scale your startup and achieve sustainable growth."
-    },
-    {
-      id: 3,
-      title: "The Future of Artificial Intelligence in Healthcare",
-      date: "2024-02-08",
-      status: "Draft",
-      author: "Dr. Emily Rodriguez",
-      category: "Technology",
-      description: "Exploring how AI is revolutionizing patient care and medical diagnostics."
-    },
-    {
-      id: 4,
-      title: "Mastering Modern CSS: Grid and Flexbox",
-      date: "2024-02-07",
-      status: "Published",
-      author: "Alex Thompson",
-      category: "Lifestyle",
-      description: "A comprehensive guide to creating responsive layouts with CSS Grid and Flexbox."
-    },
-    {
-      id: 5,
-      title: "Building Scalable Microservices Architecture",
-      date: "2024-02-06",
-      status: "Published",
-      author: "David Kumar",
-      category: "Technology",
-      description: "Best practices for designing and implementing microservices at scale."
-    },
-    {
-      id: 6,
-      title: "Effective Time Management for Remote Workers",
-      date: "2024-02-05",
-      status: "Draft",
-      author: "Jessica Martinez",
-      category: "Lifestyle",
-      description: "Productivity tips and techniques for maximizing efficiency while working from home."
-    },
-    {
-      id: 7,
-      title: "The Rise of Web3 and Decentralized Applications",
-      date: "2024-02-04",
-      status: "Published",
-      author: "Ryan Peterson",
-      category: "Startup",
-      description: "Understanding blockchain technology and its impact on the future of the internet."
-    },
-    {
-      id: 8,
-      title: "Sustainable Living: Small Changes, Big Impact",
-      date: "2024-02-03",
-      status: "Published",
-      author: "Emma Williams",
-      category: "Lifestyle",
-      description: "Practical tips for reducing your carbon footprint and living more sustainably."
-    },
-    {
-      id: 9,
-      title: "Machine Learning for Beginners: First Steps",
-      date: "2024-02-02",
-      status: "Published",
-      author: "Marcus Johnson",
-      category: "Technology",
-      description: "An introductory guide to understanding and implementing machine learning algorithms."
-    },
-    {
-      id: 10,
-      title: "Creating a Winning Product Launch Strategy",
-      date: "2024-02-01",
-      status: "Draft",
-      author: "Sophie Anderson",
-      category: "Startup",
-      description: "Step-by-step guide to planning and executing a successful product launch."
-    },
-    {
-      id: 11,
-      title: "The Art of Minimalist Design in 2024",
-      date: "2024-01-31",
-      status: "Published",
-      author: "Oliver Martinez",
-      category: "Lifestyle",
-      description: "Exploring the principles of minimalist design and how to apply them effectively."
-    },
-    {
-      id: 12,
-      title: "Cybersecurity Best Practices for Small Businesses",
-      date: "2024-01-30",
-      status: "Published",
-      author: "Rachel Green",
-      category: "Technology",
-      description: "Essential security measures every small business should implement to protect their data."
-    }
-  ];
+  
 
   const fetchBlogs = async() => {
-    // Simulate API call
-    setTimeout(() => {
-      setBlogs(dummyBlogs);
-    }, 500);
+    try {
+      const { data } = await axios.get('/api/admin/blogs');
+      if(data.success){
+        setBlogs(data.blogs);
+      }
+      else{
+        toast.error("data.message")
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
   }
-
   useEffect(() => {
     setMounted(true);
     fetchBlogs();
@@ -199,7 +97,7 @@ const ListBlog = () => {
                   </tr>
                 ) : (
                   blogs.map((blog, index) => {
-                    return <BlogTableItem key={blog.id} blog={blog} fetchBlogs={fetchBlogs} index={index + 1}/>
+                    return <BlogTableItem key={blog._id} blog={blog} fetchBlogs={fetchBlogs} index={index + 1}/>
                   })
                 )}
               </tbody>

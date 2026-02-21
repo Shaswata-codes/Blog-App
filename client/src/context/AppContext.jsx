@@ -37,6 +37,15 @@ export const AppProvider = ({ children }) => {
             axios.defaults.headers.common["Authorization"] = `Bearer ${storedToken}`;
         }
     }, []);
+    useEffect(() => {
+    if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        localStorage.setItem("token", token);
+    } else {
+        delete axios.defaults.headers.common["Authorization"];
+        localStorage.removeItem("token");
+    }
+}, [token]);
 
     const value = {
         axios,
