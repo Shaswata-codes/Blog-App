@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Quill from 'quill'
 import { useAppContext } from '../../context/AppContext'
 import toast from "react-hot-toast";
+import {parse} from 'marked'
 
 const AddBlog = () => {
   const editorRef = useRef(null)
@@ -20,11 +21,27 @@ const AddBlog = () => {
   const [mounted, setMounted] = useState(false)
   const [focusedField, setFocusedField] = useState(null)
   const [dragActive, setDragActive] = useState(false)
+  const [loading, setLoading] = useState(false)
+
 
   const generateContent = async () => {
-    setIsGenerating(true)
-    // Simulate AI generation
-    setTimeout(() => setIsGenerating(false), 2000)
+    setLoading(true);
+    if(!title) return toast.error("Please enter a title to generate content");
+    try {
+      setIsGenerating(true)
+      const { data } = await axios.post('/api/blog/generateContent',{prompt : title});
+      if(data.success){
+        quillRef.current.root.innerHTML = parse(data.content);
+      }
+      else{
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+    finally{
+      setLoading(false);
+    }
   }
 
   const onSubmitHandler = async (e) => {
@@ -290,9 +307,9 @@ const AddBlog = () => {
           <div className='relative border-2 border-emerald-200/50 rounded-2xl overflow-hidden transition-all duration-300 hover:border-emerald-300 focus-within:border-emerald-400 focus-within:ring-4 focus-within:ring-emerald-100 focus-within:shadow-lg bg-white/80 backdrop-blur-sm'>
             <div ref={editorRef} className="min-h-[300px] pb-20"></div>
             <motion.button
+              disabled={loading}
               type='button'
               onClick={generateContent}
-              disabled={isGenerating}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
               className='absolute bottom-4 right-4 text-xs text-white bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 px-6 py-3 rounded-xl hover:shadow-xl hover:shadow-emerald-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-black overflow-hidden group'

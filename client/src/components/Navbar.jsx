@@ -64,18 +64,7 @@ const Navbar = () => {
 
         {/* Right Section - Auth Buttons */}
         <div className='flex items-center gap-3 sm:gap-4'>
-          {/* Get Started Button - Hidden on small screens */}
-          <button
-            onClick={() => navigate('/get-started')}
-            className='hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-emerald-700 bg-emerald-50 border-2 border-emerald-200 hover:bg-emerald-100 hover:border-emerald-300 hover:shadow-lg hover:shadow-emerald-200/50 active:scale-95 transition-all duration-300 group'
-          >
-            Get Started
-            <svg className='w-4 h-4 group-hover:rotate-45 transition-transform duration-300' fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </button>
 
-          {/* Login Button with Advanced Animations */}
           <button 
             onClick={() => navigate('/admin')}
             onMouseEnter={() => setIsHovered(true)}
