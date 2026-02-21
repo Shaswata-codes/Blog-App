@@ -7,27 +7,25 @@ const Comments = () => {
 
   const[comments, setComments] = useState([]);
   const [filter, setFilter] = useState("Not Approved");
-  const {axios} = useAppContext();
+  const { axios, token } = useAppContext();
 
-  const fetchComments = async () => {
-    try {
-      const { data } = await axios.get('/api/admin/comments');
-      
-      if (data.success) {
-        setComments(data.comments);
-      } else {
-        toast.error(data.message);
-      }
-
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
-
-  
-  useEffect(() => {
+useEffect(() => {
+  if (token) {
     fetchComments();
-  }, []);
+  }
+}, [token]);
+
+const fetchComments = async () => {
+  try {
+    const { data } = await axios.get("/api/admin/comments");
+    if (data.success) {
+      setComments(data.comments);
+    }
+  } catch (error) {
+    console.log(error.response?.data);
+  }
+};
+  
 
   const filteredComments = comments.filter((comment)=>{
     if(filter === "Approved") return comment.isApproved === true;

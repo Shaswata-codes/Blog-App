@@ -1,12 +1,53 @@
 import React, { useState } from 'react'
 import { assets } from '../../assets/assets'
 import { motion } from 'framer-motion'
+import { useAppContext } from '../../context/AppContext';
+import toast from 'react-hot-toast';
 
 const CommentTableItem = ({comment, fetchComments, index = 0}) => {
     const {blog, createdAt} = comment
     const BlogDate = new Date(createdAt)
     const [isHovered, setIsHovered] = useState(false)
     const [isExpanded, setIsExpanded] = useState(false)
+    const { axios } = useAppContext();
+
+// ✅ Approve Comment
+const approveComment = async () => {
+    try {
+        const { data } = await axios.post("/api/admin/approveComment", {
+            id: comment._id
+        });
+
+        if (data.success) {
+            toast.success("Comment Approved");
+            fetchComments(); // refresh list
+        } else {
+            toast.error(data.message);
+        }
+
+    } catch (error) {
+        toast.error(error.response?.data?.message || error.message);
+    }
+};
+
+// ✅ Delete Comment
+const deleteComment = async () => {
+    try {
+        const { data } = await axios.post("/api/admin/deleteComment", {
+            id: comment._id
+        });
+
+        if (data.success) {
+            toast.success("Comment Deleted");
+            fetchComments(); // refresh list
+        } else {
+            toast.error(data.message);
+        }
+
+    } catch (error) {
+        toast.error(error.response?.data?.message || error.message);
+    }
+};
 
     return (
         <motion.tr 
@@ -133,6 +174,7 @@ const CommentTableItem = ({comment, fetchComments, index = 0}) => {
                     
                     {!comment.isApproved ? (
                         <motion.button 
+                            onClick={approveComment}
                             whileHover={{ scale: 1.1, rotate: 5 }}
                             whileTap={{ scale: 0.9 }}
                             className='relative p-3 bg-gradient-to-br from-emerald-50 to-green-50 hover:from-emerald-100 hover:to-green-100 rounded-xl border-2 border-emerald-200/50 hover:border-emerald-300 transition-all duration-300 shadow-lg hover:shadow-xl group/approve overflow-hidden'
@@ -172,6 +214,7 @@ const CommentTableItem = ({comment, fetchComments, index = 0}) => {
 
                     
                     <motion.button 
+                        onClick={deleteComment}
                         whileHover={{ scale: 1.1, rotate: -5 }}
                         whileTap={{ scale: 0.9 }}
                         className='relative p-3 bg-gradient-to-br from-red-50 to-pink-50 hover:from-red-100 hover:to-pink-100 rounded-xl border-2 border-red-200/50 hover:border-red-300 transition-all duration-300 shadow-lg hover:shadow-xl group/delete overflow-hidden'
@@ -195,14 +238,19 @@ const CommentTableItem = ({comment, fetchComments, index = 0}) => {
             </td>
 
             
-            {isHovered && (
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    className='absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 w-1 h-16 bg-gradient-to-b from-emerald-500 via-green-500 to-teal-500 rounded-full shadow-lg'
-                />
-            )}
+            <td className='px-6 py-8 align-top relative'>
+    
+    {/* Your buttons */}
+
+    {isHovered && (
+        <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className='absolute right-0 top-1/2 -translate-y-1/2 w-1 h-16 bg-gradient-to-b from-emerald-500 via-green-500 to-teal-500 rounded-full shadow-lg'
+        />
+    )}
+
+</td>
 
             <style>{`
                 @keyframes ping {
