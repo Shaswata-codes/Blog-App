@@ -63,12 +63,12 @@ const Header = () => {
         />
       ))}
 
-      {/* Badge */}
+      {/* Badge
       <div className={`relative z-10 flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full px-4 py-2 mb-8 backdrop-blur-sm transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
         <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
         <span className="text-emerald-300 text-sm font-medium">New: AI features integrated</span>
         <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-emerald-500/10 to-transparent animate-pulse" />
-      </div>
+      </div> */}
 
       {/* Main Heading */}
       <div className={`relative z-10 text-center mb-6 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
