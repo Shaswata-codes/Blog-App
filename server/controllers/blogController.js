@@ -1,7 +1,7 @@
 import fs from "fs";
 import mongoose from "mongoose";
 import imagekit from "../configs/imagekit.js";
-import Blog from "../models/Blog.js";
+import Blog from "../models/blog.js";
 import Comment from "../models/comment.js";
 import main from "../configs/gemini.js";
 
