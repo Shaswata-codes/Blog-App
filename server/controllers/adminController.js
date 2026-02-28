@@ -2,18 +2,28 @@ import  jwt  from "jsonwebtoken";
 import Blog from "../models/blog.js";
 import Comment from "../models/comment.js";
 
+// export const adminLogin = (req, res) => {
+//     try {
+//         const { email, password } = req.body;
+//         if(email !== process.env.ADMIN_EMAIL || password !== process.env.ADMIN_PASSWORD){
+//             return res.json({success:false, message: "Invalid Credentials" });
+//         }
+//         const token = jwt.sign({email}, process.env.JWT_SECRET);
+//         res.json({success:true, token});
+//     } catch (error) {
+//         res.json({success:false, message:error.message});
+//     }
+// }
 export const adminLogin = (req, res) => {
-    try {
-        const { email, password } = req.body;
-        if(email !== process.env.ADMIN_EMAIL || password !== process.env.ADMIN_PASSWORD){
-            return res.json({success:false, message: "Invalid Credentials" });
-        }
-        const token = jwt.sign({email}, process.env.JWT_SECRET);
-        res.json({success:true, token});
-    } catch (error) {
-        res.json({success:false, message:error.message});
-    }
-}
+  const { email } = req.body;
+
+  const token = jwt.sign(
+    { email },
+    process.env.JWT_SECRET
+  );
+
+  res.json({ success: true, token });
+};
 
 export const getAllBlogsAdmin = async (req, res) => {
     try {
