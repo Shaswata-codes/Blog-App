@@ -9,7 +9,7 @@ const app = express();
 
 await connectDB();
 
-// ✅ Proper CORS setup
+
 app.use(
   cors({
     origin: true,
